@@ -8,7 +8,6 @@ import {
 import Link from "next/link";
 
 export default function ArchiveYearPage({ params: { filter } }) {
-  console.log(filter);
   const selectedYear = filter?.[0];
   const selectedMonth = filter?.[1];
 
@@ -27,6 +26,12 @@ export default function ArchiveYearPage({ params: { filter } }) {
   }
 
   if (news && news.length > 0) newsContent = <NewsList news={news} />;
+  if (
+    (selectedYear && !getAvailableNewsYears().includes(+selectedYear)) ||
+    (selectedMonth &&
+      !getAvailableNewsMonths(selectedYear).includes(+selectedMonth))
+  )
+    throw new Error("Invalid filter.");
 
   return (
     <>
